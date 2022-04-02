@@ -1,9 +1,9 @@
 # Rotten Lemmons
 
-Gabriel da Cunha Dertoni       - 11795717
-Natan Henrique Sanches         - 11795680
-Paulo Henrique de Souza Soares - 11884713
-Álvaro José Lopes              - 10873365
+- Gabriel da Cunha Dertoni       - 11795717
+- Natan Henrique Sanches         - 11795680
+- Paulo Henrique de Souza Soares - 11884713
+- Álvaro José Lopes              - 10873365
 
 ## Descição do problema e dos requisitos de dados
 
