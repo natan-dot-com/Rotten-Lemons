@@ -1,11 +1,11 @@
-# Rotten Lemmons
+# Rotten Lemons
 
 - Gabriel da Cunha Dertoni       - 11795717
 - Natan Henrique Sanches         - 11795680
 - Paulo Henrique de Souza Soares - 11884713
 - Álvaro José Lopes              - 10873365
 
-## Descição do problema e dos requisitos de dados
+## Descrição do problema e dos requisitos de dados
 
 Um dos principais serviços de streaming de música utilizados na atualidade é o
 Spotify, que conta com uma grande variedade e quantidade de músicas, possuindo
@@ -87,7 +87,7 @@ Usuário:
   éCrítico: Booleano
 ```
 
-## Relacionamento entre enditades do 'mundo real'
+## Relacionamento entre entidades do 'mundo real'
 
 ## Restrições de Integridade
 
