@@ -54,7 +54,7 @@ música.
 - Tags
 - Gêneros
 
-## Características e Atributos
+## Entidades e Atributos
 
 ```
 Música:
