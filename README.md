@@ -103,3 +103,8 @@ podemos citar:
 ## Restrições de Integridade (parcialmente feito)
 
 ## Discussões sobre ciclos
+
+[^1]: Pode ser observado em
+    <https://community.spotify.com/t5/Closed-Ideas/Social-Allow-Comments-on-Tracks-Albums/idi-p/1295893.>
+    e
+    <https://community.spotify.com/t5/Live-Ideas/Music-Personal-Rating-of-Music/idi-p/179102>
