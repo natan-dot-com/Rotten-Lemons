@@ -100,9 +100,10 @@ podemos citar:
     -   Listagem de moderadores;
     -   Concebimento do cargo de moderador para usuário.
 
-## Restrições de Integridade (parcialmente feito)
-
 ## Discussões sobre ciclos
+
+## Diagrama do modelo Entidade-Relacionamento
+![Diagrama Entidade-Relacionamento](./Rotten-Lemons-MER.png)
 
 [^1]: Pode ser observado em
     <https://community.spotify.com/t5/Closed-Ideas/Social-Allow-Comments-on-Tracks-Albums/idi-p/1295893.>
