@@ -14,8 +14,8 @@ BEGIN
         OR (_CARGO_MOD = 'A')) THEN
             RETURN NEW;
     ELSE
-        RAISE EXCEPTION '% nao possui permissao para banir %',
-            NEW.MODERADOR, NEW.USUARIO_BANIDO;
+        RAISE EXCEPTION '%(%) nao possui permissao para banir %(%)',
+            NEW.MODERADOR, _CARGO_MOD, NEW.USUARIO_BANIDO, _CARGO_USR;
         RETURN NULL;
     END IF;
 END;
