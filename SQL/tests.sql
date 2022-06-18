@@ -44,3 +44,36 @@ SELECT * FROM BANIDO_POR;
 -- Caso 6: Administrador banindo administrador (Válido) ??
 INSERT INTO BANIDO_POR VALUES ('admin1', 'admin2', current_date, 10);
 SELECT * FROM BANIDO_POR;
+
+
+-- Testes TRIGGER_PERMISSAO_REMOVE
+-- Trigger para que usuarios banidos não comentem?
+INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+    VALUES ('usuario1', current_date, 'lorem ipsum', 'ARTISTA');
+INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+    VALUES ('usuario2', current_date, 'lorem ipsum', 'ARTISTA');
+INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+    VALUES ('usuario1', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
+INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+    VALUES ('usuario2', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
+INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+    VALUES ('usuario1', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
+INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+    VALUES ('usuario2', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
+
+SELECT * FROM COMENTARIO;
+-- Próprio autor do comentario não pode remover seu comentario?
+
+-- Caso 1: Moderador removendo um comentario
+INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'moderador1');
+
+-- Caso 2: Admin removendo um comentario
+INSERT INTO COMENTARIO_REMOVIDO VALUES (2, 'admin1');
+
+-- Caso 3: Usuario (não autor) removendo um comentario
+INSERT INTO COMENTARIO_REMOVIDO VALUES (3, 'usuario2');
+
+-- Caso 4: Usuario (autor) 
+INSERT INTO COMENTARIO_REMOVIDO VALUES (5, 'usuario1');
+
+SELECT * FROM COMENTARIO_REMOVIDO;
