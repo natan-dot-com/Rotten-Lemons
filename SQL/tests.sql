@@ -73,7 +73,10 @@ INSERT INTO COMENTARIO_REMOVIDO VALUES (2, 'admin1');
 -- Caso 3: Usuario (não autor) removendo um comentario
 INSERT INTO COMENTARIO_REMOVIDO VALUES (3, 'usuario2');
 
--- Caso 4: Usuario (autor) 
+-- Caso 4: Usuario (autor) removendo um comentario
 INSERT INTO COMENTARIO_REMOVIDO VALUES (5, 'usuario1');
+
+-- Caso 5: Um moderador diferente removendo um mesmo comentario (inválido)
+INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'moderador2');
 
 SELECT * FROM COMENTARIO_REMOVIDO;
