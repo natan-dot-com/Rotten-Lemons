@@ -28,44 +28,44 @@ SELECT * FROM USUARIO;
 \echo '-----------------------------------------------------'
 \echo 'Testes Trigger permissao para banir'
 \echo '\nCaso 1: Moderador banindo usuario normal (Válido)'
-INSERT INTO BANIDO_POR VALUES ('usuario1', 'moderador1', current_date, 10);
+INSERT INTO BANIDO_POR VALUES ('usuario1', 'moderador1', current_date);
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 2: Administrador banindo usuario normal (Válido)'
-INSERT INTO BANIDO_POR VALUES ('usuario2', 'admin1', current_date, 10);
+INSERT INTO BANIDO_POR VALUES ('usuario2', 'admin1', current_date);
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 3: Moderador banindo administrador (Inválido)'
-INSERT INTO BANIDO_POR VALUES ('admin1', 'moderador1', current_date, 10);
+INSERT INTO BANIDO_POR VALUES ('admin1', 'moderador1', current_date);
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 4: Administrador banindo moderador (Válido)'
-INSERT INTO BANIDO_POR VALUES ('moderador1', 'admin1', current_date, 10);
+INSERT INTO BANIDO_POR VALUES ('moderador1', 'admin1', current_date);
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 5: Moderador banindo moderador (Inválido)'
-INSERT INTO BANIDO_POR VALUES ('moderador1', 'moderador1', current_date, 10);
+INSERT INTO BANIDO_POR VALUES ('moderador1', 'moderador1', current_date);
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 6: Administrador banindo administrador (Válido) ??'
-INSERT INTO BANIDO_POR VALUES ('admin1', 'admin2', current_date, 10);
+INSERT INTO BANIDO_POR VALUES ('admin1', 'admin2', current_date);
 SELECT * FROM BANIDO_POR;
 \echo '-----------------------------------------------------'
 
 
 -- Testes TRIGGER_PERMISSAO_REMOVE_COMENTARIO()
 -- Trigger para que usuarios banidos não comentem?
-INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
     VALUES ('usuario1', current_date, 'lorem ipsum', 'ARTISTA');
-INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
     VALUES ('usuario2', current_date, 'lorem ipsum', 'ARTISTA');
-INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
     VALUES ('usuario1', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
-INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
     VALUES ('usuario2', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
-INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
     VALUES ('usuario1', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
-INSERT INTO COMENTARIO (USUARIO, DATA_PUBL, CONTEUDO, TIPO)
+INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
     VALUES ('usuario2', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
 
 SELECT * FROM COMENTARIO;
@@ -103,12 +103,12 @@ INSERT INTO ALBUM (NOME_ALBUM, ARTISTA) VALUES ('album2', 'artista2');
 SELECT * FROM ALBUM;
 
 \echo '\nCaso 1: Inserindo artista participante válido'
-INSERT INTO PARTICIPA_ALBUM VALUES (1, 'artista2');
-INSERT INTO PARTICIPA_ALBUM VALUES (1, 'artista3');
-INSERT INTO PARTICIPA_ALBUM VALUES (2, 'artista1');
+INSERT INTO PARTICIPA_ALBUM VALUES (10, 'artista2');
+INSERT INTO PARTICIPA_ALBUM VALUES (10, 'artista3');
+INSERT INTO PARTICIPA_ALBUM VALUES (11, 'artista1');
 
 \echo '\nCaso 2: Inserindo artista participante inválido'
-INSERT INTO PARTICIPA_ALBUM VALUES (2, 'artista2');
+INSERT INTO PARTICIPA_ALBUM VALUES (11, 'artista2');
 
 SELECT * FROM PARTICIPA_ALBUM;
 \echo '-----------------------------------------------------'
@@ -155,3 +155,8 @@ INSERT INTO AVALIA VALUES ('OsniBrito', 9, 5);
 \echo '-----------------------------------------------------'
 
 
+-- Testes TRIGGER_BLOQUEIA_BANIDOS()
+\echo '-----------------------------------------------------'
+\echo 'Testando TRIGGER_CLASSIFICA_POR_TAG_REMOVIDA'
+\echo '\nCaso unico: Usuario tentando classificar musica por uma tag ja removida'
+INSERT INTO CLASSIFICA_POR VALUES (1, 'Feliz', 'PedroAugusto');
