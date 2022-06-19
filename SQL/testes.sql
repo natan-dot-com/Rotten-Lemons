@@ -80,12 +80,6 @@ INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'moderador2');
 
 SELECT * FROM COMENTARIO_REMOVIDO;
 
--- Testes TRIGGER_PERMISSAO_REMOVE_TAG()
--- WIP
-
--- Testes TRIGGER_BLOQUEIA_BANIDOS()
--- WIP
-
 -- Testes TRIGGER_ALBUM_CIRCULAR()
 INSERT INTO ARTISTA VALUES ('artista1');
 INSERT INTO ARTISTA VALUES ('artista2');
@@ -107,3 +101,16 @@ INSERT INTO PARTICIPA_ALBUM VALUES (2, 'artista2');
 
 SELECT * FROM PARTICIPA_ALBUM;
 
+-- Testes TRIGGER_PERMISSAO_REMOVE_TAG()
+\echo 'Testando TRIGGER_PERMISSAO_REMOVE_TAG'
+\echo 'Caso 1: Admin removendo tag:'
+INSERT INTO TAG_REMOVIDA VALUES('Feliz', 'NatanSanches', 10);
+
+\echo 'Caso 2: Moderador removendo tag:'
+INSERT INTO TAG_REMOVIDA VALUES('Triste', 'PauloSoares', 9);
+
+\echo 'Caso 3: Usuario comum removendo tag:'
+INSERT INTO TAG_REMOVIDA VALUES('Pensativo', 'PedroAugusto', 7);
+
+-- Testes TRIGGER_BLOQUEIA_BANIDOS()
+-- WIP

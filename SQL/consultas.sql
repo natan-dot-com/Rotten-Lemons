@@ -1,0 +1,4 @@
+-- C1: Consultar a quantidade de estrelas (1,2,3,4,5) para cada música de um artista 
+-- Separar contagem para criticos para usuarios comuns.
+-- Retorno: | Musica | Tipo de usuario | Contagem | Quantidade de estrelas |
+-- Uso de GROUP BY

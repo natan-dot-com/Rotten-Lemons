@@ -30,7 +30,7 @@ BEGIN
         WHERE U.NOME_USUARIO = NEW.NOME_USUARIO;
 
     IF (_CARGO_AUTOR NOT IN ('M', 'A')) THEN
-        RAISE EXCEPTION 'Usuario % nao tem permissao de
+        RAISE EXCEPTION 'Usuario % nao tem permissao para
             remover tag', NEW.NOME_USUARIO;
         RETURN NULL;
     END IF;
