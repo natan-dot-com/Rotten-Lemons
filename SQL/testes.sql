@@ -56,32 +56,32 @@ SELECT * FROM BANIDO_POR;
 -- Testes TRIGGER_PERMISSAO_REMOVE_COMENTARIO()
 -- Trigger para que usuarios banidos não comentem?
 INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
-    VALUES ('usuario1', current_date, 'lorem ipsum', 'ARTISTA');
+    VALUES ('AlvaroLopes', current_date, 'lorem ipsum', 'ARTISTA');
 INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
-    VALUES ('usuario2', current_date, 'lorem ipsum', 'ARTISTA');
+    VALUES ('PauloSoares', current_date, 'lorem ipsum', 'ARTISTA');
 INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
-    VALUES ('usuario1', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
+    VALUES ('AlvaroLopes', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
 INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
-    VALUES ('usuario2', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
+    VALUES ('PauloSoares', TO_DATE('31/12/2010', 'DD/MM/YYYY'), 'lorem ipsum', 'ALBUM');
 INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
-    VALUES ('usuario1', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
+    VALUES ('AlvaroLopes', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
 INSERT INTO COMENTARIO (NOME_USUARIO, DATA_PUBL, CONTEUDO, TIPO)
-    VALUES ('usuario2', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
+    VALUES ('PauloSoares', TO_DATE('31/12/1999', 'DD/MM/YYYY'), 'lorem ipsum', 'MUSICA');
 
 SELECT * FROM COMENTARIO;
 \echo '-----------------------------------------------------'
 \echo 'Testes permissao para remover comentario'
 \echo '\nCaso 1: Moderador removendo um comentario'
-INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'moderador1');
+INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'PauloSoares');
 
 \echo '\nCaso 2: Admin removendo um comentario'
-INSERT INTO COMENTARIO_REMOVIDO VALUES (2, 'admin1');
+INSERT INTO COMENTARIO_REMOVIDO VALUES (3, 'NatanSanches');
 
 \echo '\nCaso 3: Usuario (não autor) removendo um comentario'
-INSERT INTO COMENTARIO_REMOVIDO VALUES (3, 'usuario2');
+INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'PedroAugusto');
 
 \echo '\nCaso 4: Usuario (autor) removendo um comentario'
-INSERT INTO COMENTARIO_REMOVIDO VALUES (5, 'usuario1');
+INSERT INTO COMENTARIO_REMOVIDO VALUES (6, 'PedroAugusto');
 
 \echo '\nCaso 5: Um moderador diferente removendo um mesmo comentario (inválido)'
 INSERT INTO COMENTARIO_REMOVIDO VALUES (1, 'moderador2');
@@ -102,7 +102,7 @@ INSERT INTO ALBUM (NOME_ALBUM, ARTISTA) VALUES ('album2', 'artista2');
 
 SELECT * FROM ALBUM;
 
-\echo '\nCaso 1: Inserindo artista participante válido'
+\echo '\nCaso 1: Inserindo artistas (3 inserts) participante válido'
 INSERT INTO PARTICIPA_ALBUM VALUES (10, 'artista2');
 INSERT INTO PARTICIPA_ALBUM VALUES (10, 'artista3');
 INSERT INTO PARTICIPA_ALBUM VALUES (11, 'artista1');

@@ -7,7 +7,7 @@ BEGIN
         WHERE A.ID_ALBUM = NEW.ID_ALBUM;
 
     IF (UPPER(_ARTISTA_PRINCIPAL) = UPPER(NEW.PARTICIPANTE)) THEN
-        RAISE EXCEPTION 'Artista % ja eh principal do album',
+        RAISE EXCEPTION '% ja eh principal do album',
             _ARTISTA_PRINCIPAL;
         RETURN NULL;
     END IF;
