@@ -208,7 +208,7 @@ CREATE TRIGGER CLASSIFICA_POR_TAG_REMOVIDA
 
 CREATE TABLE TAG_REMOVIDA (
     TAG             VARCHAR(30),
-    NOME_USUARIO    VARCHAR(50),
+    NOME_USUARIO    VARCHAR(50)     NOT NULL,
     MUSICA          INTEGER,
 
     CONSTRAINT PK_TAGREMOVIDA PRIMARY KEY (TAG, MUSICA),
@@ -258,8 +258,6 @@ CREATE TRIGGER BLOQUEIA_BANIDOS_CURTE
     BEFORE INSERT ON CURTE
     FOR EACH ROW EXECUTE PROCEDURE TRIGGER_BLOQUEIA_BANIDOS();
 
--- as avaliacoes sao apenas para musicas, tratar em aplicacao se houver
--- existencia de notas para albuns e artistas (media da hierarquia inferior)
 CREATE TABLE AVALIA (
     NOME_USUARIO    VARCHAR(50),
     ID_MUSICA       INTEGER,
