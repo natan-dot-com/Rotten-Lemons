@@ -4,7 +4,8 @@ AS $$
 BEGIN
     IF EXISTS (SELECT * FROM BANIDO_POR BP
         WHERE BP.USUARIO_BANIDO = NEW.NOME_USUARIO) THEN
-            RAISE EXCEPTION '...';
+            RAISE EXCEPTION '% não pode executar essa ação porque está banido',
+                NEW.NOME_USUARIO;
             RETURN NULL;
     END IF;
     RETURN NEW;
