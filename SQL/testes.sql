@@ -28,27 +28,27 @@ SELECT * FROM USUARIO;
 \echo '-----------------------------------------------------'
 \echo 'Testes Trigger permissao para banir'
 \echo '\nCaso 1: Moderador banindo usuario normal (Válido)'
-INSERT INTO BANIDO_POR VALUES ('usuario1', 'moderador1', current_date);
+INSERT INTO BANIDO_POR VALUES ('usuario1', 'moderador1', current_date, 'motivo');
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 2: Administrador banindo usuario normal (Válido)'
-INSERT INTO BANIDO_POR VALUES ('usuario2', 'admin1', current_date);
+INSERT INTO BANIDO_POR VALUES ('usuario2', 'admin1', current_date, 'motivo');
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 3: Moderador banindo administrador (Inválido)'
-INSERT INTO BANIDO_POR VALUES ('admin1', 'moderador1', current_date);
+INSERT INTO BANIDO_POR VALUES ('admin1', 'moderador1', current_date, 'motivo');
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 4: Administrador banindo moderador (Válido)'
-INSERT INTO BANIDO_POR VALUES ('moderador1', 'admin1', current_date);
+INSERT INTO BANIDO_POR VALUES ('moderador1', 'admin1', current_date, 'motivo');
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 5: Moderador banindo moderador (Inválido)'
-INSERT INTO BANIDO_POR VALUES ('moderador1', 'moderador1', current_date);
+INSERT INTO BANIDO_POR VALUES ('moderador1', 'moderador1', current_date, 'motivo');
 SELECT * FROM BANIDO_POR;
 
 \echo '\nCaso 6: Administrador banindo administrador (Válido) ??'
-INSERT INTO BANIDO_POR VALUES ('admin1', 'admin2', current_date);
+INSERT INTO BANIDO_POR VALUES ('admin1', 'admin2', current_date, 'motivo');
 SELECT * FROM BANIDO_POR;
 \echo '-----------------------------------------------------'
 
@@ -92,10 +92,10 @@ SELECT * FROM COMENTARIO_REMOVIDO;
 -- Testes TRIGGER_ALBUM_CIRCULAR()
 \echo '-----------------------------------------------------'
 \echo 'Testes album circular'
-INSERT INTO ARTISTA VALUES ('artista1');
-INSERT INTO ARTISTA VALUES ('artista2');
-INSERT INTO ARTISTA VALUES ('artista3');
-INSERT INTO ARTISTA VALUES ('artista4');
+INSERT INTO ARTISTA VALUES ('artista1', 'genero1');
+INSERT INTO ARTISTA VALUES ('artista2', 'genero2');
+INSERT INTO ARTISTA VALUES ('artista3', 'genero3');
+INSERT INTO ARTISTA VALUES ('artista4', 'genero4');
 
 INSERT INTO ALBUM (NOME_ALBUM, ARTISTA) VALUES ('album1', 'artista1');
 INSERT INTO ALBUM (NOME_ALBUM, ARTISTA) VALUES ('album2', 'artista2');
