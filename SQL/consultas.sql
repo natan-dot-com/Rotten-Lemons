@@ -57,4 +57,13 @@ WHERE NOTAS_AL.ARTISTA = AR.NOME_ARTISTA
 GROUP BY (AR.NOME_ARTISTA)
 ORDER BY (NOTA_ARTISTA) DESC;
 
--- C5: 
+-- C5: Selecionar o nome e artista principal das músicas com o maior número bruto de tags classificadas.
+-- Retorno: | Nome da Música | Nome do Autor | Número de tags classificadas |
+SELECT M.NOME_MUSICA, AR.NOME_ARTISTA, COUNT(CP.TAG) AS CONTAGEM
+    FROM MUSICA M 
+        NATURAL JOIN CLASSIFICA_POR CP
+        JOIN ALBUM AL ON (M.ALBUM = AL.ID_ALBUM)
+        JOIN ARTISTA AR ON (AL.ARTISTA = AR.NOME_ARTISTA)
+    GROUP BY M.NOME_MUSICA, AR.NOME_ARTISTA
+    ORDER BY (CONTAGEM) DESC;
+

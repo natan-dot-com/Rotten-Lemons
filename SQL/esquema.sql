@@ -101,11 +101,11 @@ CREATE TRIGGER PERMISSAO_BANIMENTO
 CREATE TABLE COMENTARIO (
     ID_COMENTARIO   INTEGER         GENERATED ALWAYS AS IDENTITY,
     NOME_USUARIO    VARCHAR(50)     NOT NULL,
-    DATA_PUBL       TIMESTAMP       NOT NULL,                       DEFAULT NOW(),
+    DATA_PUBL       TIMESTAMP       NOT NULL                        DEFAULT NOW(),
     CONTEUDO        VARCHAR(300)    NOT NULL,
     TIPO            VARCHAR(7)      NOT NULL,
 
-    -- tratar em aplicação a inserção casada de COMENTARIO em suas subtabelas
+    -- DETONI: tratar em aplicação a inserção casada de COMENTARIO em suas subtabelas
     CONSTRAINT PK_COMENTARIO PRIMARY KEY (ID_COMENTARIO),
     CONSTRAINT UN_COMENTARIO UNIQUE (NOME_USUARIO, DATA_PUBL),
     CONSTRAINT FK_COMENTARIO FOREIGN KEY (NOME_USUARIO) REFERENCES
@@ -172,7 +172,7 @@ CREATE TABLE PLAYLIST (
     DATA_CRIACAO    DATE            NOT NULL                        DEFAULT NOW(),
     TAG_PLAYLIST    VARCHAR(30)     NOT NULL,
 
-    -- tratar a nivel de aplicacao para nao deixar gerar playlists vazias
+    -- DETONI: tratar a nivel de aplicacao para nao deixar gerar playlists vazias
     -- sem nenhuma musica
     CONSTRAINT PK_PLAYLIST PRIMARY KEY (ID_PLAYLIST),
     CONSTRAINT UN_PLAYLIST UNIQUE(DATA_CRIACAO, TAG_PLAYLIST),
