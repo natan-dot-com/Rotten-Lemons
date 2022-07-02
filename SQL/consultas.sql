@@ -1,46 +1,51 @@
--- C1: Consultar a quantidade de estrelas (1,2,3,4,5) para cada música de um artista 
--- Separar contagem para criticos para usuarios comuns.
--- Retorno: | Musica | Tipo de usuario | Contagem | Quantidade de estrelas |
+-- C1: Consultar as tags mais populares de cada música
+-- Retorno: | Nome do Artista | Nome do Álbum | Nome da Música | Nome da Tag mais popular | Número de vezes utilizada |
+\echo 'Consulta 1: Consultar as tags mais populares de cada música. Citar também as músicas sem tags classificadas.'
 
--- C2: Visualizar todos os comentários feitos por críticos. 
--- Retorno: | Usuario | Conteúdo do Comentário | Tipo do Comentário |
+SELECT DISTINCT ON (TMP.NOME_MUSICA) AR.NOME_ARTISTA, AL.NOME_ALBUM, TMP.NOME_MUSICA, 
+    TAG_POPULAR, CONTAGEM_UTILIZACOES 
+        FROM ARTISTA AR
+        JOIN ALBUM AL ON (AR.NOME_ARTISTA = AL.ARTISTA)
+        RIGHT JOIN (
+            SELECT M.NOME_MUSICA, M.ALBUM, COALESCE(CP.TAG, '-') AS TAG_POPULAR, 
+                COUNT(CP.TAG) AS CONTAGEM_UTILIZACOES
+                    FROM MUSICA M
+                    LEFT JOIN CLASSIFICA_POR CP ON (M.ID_MUSICA = CP.ID_MUSICA)
+                    GROUP BY M.NOME_MUSICA, CP.TAG, M.ALBUM
+                    ORDER BY M.NOME_MUSICA, COUNT(CP.TAG) DESC
+        ) TMP ON (TMP.ALBUM = AL.ID_ALBUM)
+        ORDER BY TMP.NOME_MUSICA;
 
--- C3: Consulta todos os comentários sobre artistas feito por críticos
-SELECT CCAA.NOME_USUARIO, CCAA.CONTEUDO, CCAA.ARTISTA_COMENTARIO AS ARTISTA  FROM 
-((SELECT U.NOME_USUARIO, U.EH_CRITICO, C.CONTEUDO, C.TIPO, C.ID_COMENTARIO
-FROM (SELECT * FROM USUARIO WHERE EH_CRITICO = TRUE) U
-JOIN (SELECT * FROM COMENTARIO WHERE TIPO = 'Artista') C 
-ON C.NOME_USUARIO = U.NOME_USUARIO) CCA 
-JOIN COMENTARIO_ARTISTA CA ON CA.ID_COMENTARIO = CCA.ID_COMENTARIO) CCAA;
+-- C2: Selecionar músicas que foram classificadas com todas as tags disponíveis
+-- Retorno: | Nome do Artista | Nome do Álbum | Nome da Música |
+\echo 'Consulta 2: Selecionar músicas que foram classificadas com todas as tags disponíveis'
 
--- C3: Consulta todos os comentários sobre músicas feito por críticos
--- Faz join USUARIO(filtrando os criticos) com COMENTARIO (filtrando os referentes a musicas)
--- Com o resultado faz join com COMENTARIO_MUSICA
--- Em seguida faz join com MUSICA
--- Por fim com ALBUM.
-SELECT _CCMNA.AUTOR, _CCMNA.CONTEUDO, _CCMNA.NOME_MUSICA, _CCMNA.NOME_ALBUM, _CCMNA.ARTISTA FROM
-    ((SELECT _CCMN.AUTOR, _CCMN.CONTEUDO, _CCMN.NOME_MUSICA, _CCMN.ALBUM  FROM
-        ((SELECT _CCM.AUTOR, _CCM.CONTEUDO, _CCM.ID_MUSICA  FROM
-            (   (SELECT _CC.AUTOR, _CC.CONTEUDO, _CC.ID_COMENTARIO AS ID_COM  FROM
-                (   (SELECT U.NOME_USUARIO FROM USUARIO U WHERE U.EH_CRITICO = TRUE) U
-                    JOIN 
-                    (SELECT C.CONTEUDO, C.ID_COMENTARIO, C.NOME_USUARIO AS AUTOR FROM COMENTARIO C WHERE C.TIPO = 'Musica') C
-                    ON C.AUTOR = U.NOME_USUARIO 
-                ) _CC ) CC -- Comentario de Criticos
-                JOIN 
-                COMENTARIO_MUSICA CM 
-                ON CM.ID_COMENTARIO = CC.ID_COM
-            ) _CCM ) CCM -- Comentario de um Critico em uma Musica
-        JOIN 
-        MUSICA M
-        ON M.ID_MUSICA = CCM.ID_MUSICA ) _CCMN ) CCMN -- Comentario de um Critico em uma musica com nome
-    JOIN
-    ALBUM A 
-    ON A.ID_ALBUM = CCMN.ALBUM ) _CCMNA; -- Comentario de um Critico em uma música com nome e album
+SELECT DISTINCT AR.NOME_ARTISTA, AL.NOME_ALBUM, M.NOME_MUSICA
+    FROM ARTISTA AR
+    JOIN ALBUM AL ON (AL.ARTISTA = AR.NOME_ARTISTA)
+    JOIN MUSICA M ON (M.ALBUM = AL.ID_ALBUM)
+    WHERE NOT EXISTS (
+        (SELECT * FROM TAG)
+        EXCEPT
+        (SELECT CP.TAG FROM CLASSIFICA_POR CP WHERE CP.ID_MUSICA = M.ID_MUSICA)
+    );
+
+-- C3: Recuperar os comentários de críticos referentes a músicas
+-- Retorno: | Nome de usuário | Conteúdo | Nome da Música | Nome do Álbum | Nome do Artista |
+\echo 'Consulta 3: Recuperar os comentários de críticos referentes a músicas'
+
+SELECT U.NOME_USUARIO, C.CONTEUDO, M.NOME_MUSICA, A.NOME_ALBUM, A.ARTISTA FROM 
+    COMENTARIO_MUSICA CM NATURAL JOIN COMENTARIO C 
+    NATURAL JOIN USUARIO U
+    JOIN MUSICA M ON M.ID_MUSICA = CM.ID_MUSICA
+    JOIN ALBUM A ON A.ID_ALBUM = M.ALBUM
+    WHERE U.EH_CRITICO = TRUE;
 
 -- C4: Visualizar as notas médias dos artistas (sendo eles as notas médias dos álbuns,
 -- que por consequência são as notas das músicas do álbum).
 -- Retorno: | Nome do Artista | Nota Média do Artista |
+\echo 'Consulta 4: Visualizar as notas médias dos artistas'
+
 SELECT AR.NOME_ARTISTA, ROUND(AVG(NOTA_ALBUM), 3) AS NOTA_ARTISTA
 FROM ARTISTA AR, (
     SELECT AL.NOME_ALBUM, AL.ARTISTA, ROUND(AVG(NOTA_MUSICA), 3) AS NOTA_ALBUM
@@ -59,11 +64,13 @@ ORDER BY (NOTA_ARTISTA) DESC;
 
 -- C5: Selecionar o nome e artista principal das músicas com o maior número bruto de tags classificadas.
 -- Retorno: | Nome da Música | Nome do Autor | Número de tags classificadas |
+\echo 'Consulta 5: Selecionar o nome e o artista principal das músicas com o maior número bruto de tags classificadas'
+
 SELECT M.NOME_MUSICA, AR.NOME_ARTISTA, COUNT(CP.TAG) AS CONTAGEM
     FROM MUSICA M 
-        NATURAL JOIN CLASSIFICA_POR CP
-        JOIN ALBUM AL ON (M.ALBUM = AL.ID_ALBUM)
-        JOIN ARTISTA AR ON (AL.ARTISTA = AR.NOME_ARTISTA)
+    NATURAL JOIN CLASSIFICA_POR CP
+    JOIN ALBUM AL ON (M.ALBUM = AL.ID_ALBUM)
+    JOIN ARTISTA AR ON (AL.ARTISTA = AR.NOME_ARTISTA)
     GROUP BY M.NOME_MUSICA, AR.NOME_ARTISTA
     ORDER BY (CONTAGEM) DESC;
 
