@@ -82,7 +82,7 @@ def command(name, requires_login=False, help="...sem mensagem..."):
 
 # This command is special and doesn't have a handler function.
 # It will be caught before any handler is called.
-@command("sair")
+@command("sair", help="sair - fecha o REPL e encerra a sessão")
 def quit_repl():
   # Code should never reach this line because this command should
   # be caught early and exit gracefully. But if we do get here,
@@ -103,7 +103,7 @@ def help_cmd(_, args):
   except StopIteration:
     raise CommandError(f"comando '{cmd_name}' não encontrado")
 
-@command("registrar")
+@command("registrar", help="registrar - cria um novo usuário")
 def create_user(conn, _):
   email = repl_input("email: ")
   username = repl_input("username: ")
@@ -121,7 +121,7 @@ def create_user(conn, _):
         data_nascimento = data_nascimento
       ))
 
-@command("login")
+@command("login", help="login <email> - faz login com um email")
 def login(conn, command):
   global userdata
 
@@ -143,7 +143,7 @@ def login(conn, command):
 
     print("Logado com sucesso")
 
-@command("buscar musica")
+@command("buscar musica", help="buscar musica - busca por uma música por nome")
 def search_song(conn, _):
   song_name = repl_input("nome da música (parcial): ")
 
@@ -183,7 +183,8 @@ def search_song(conn, _):
     ]
     pydoc.pager("\n".join(lines))
 
-@command("avaliar musica", requires_login=True)
+@command("avaliar musica", requires_login=True,
+         help="avaliar musica - avalia uma música (por id) numa escala de 5 estrelas")
 def rate_song(conn, _):
   global userdata
 
@@ -206,7 +207,8 @@ def rate_song(conn, _):
 
     print("Música avaliada com sucesso")
 
-@command("atribuir tag", requires_login=True)
+@command("atribuir tag", requires_login=True,
+         help="atribuir tag - atribui uma tag a uma música (por id)")
 def tag(conn, _):
   global userdata
 
@@ -247,15 +249,18 @@ def tag(conn, _):
 
     print("Tag atribuida com sucesso")
 
-@command("comentar", requires_login=True)
-def comment(conn, _):
-  type = repl_input("tipo do comentário (artista, album ou musica): ")
+@command("comentar", requires_login=True,
+         help="comentar <tipo> - deixa um comentário. tipo pode ser 'artista', 'album' ou 'musica'")
+def comment(conn, args):
+  type = args.strip()
   if type == "artista":
     target_id = repl_input("id do artista: ")
   elif type == "album":
     target_id = repl_input("id do álbum: ")
   elif type == "musica":
     target_id = repl_input("id da música: ")
+  else:
+    raise CommandError("<tipo> precisa ser 'artista', 'album' ou 'musica'")
 
   comment = repl_input("comentário: ")
 
