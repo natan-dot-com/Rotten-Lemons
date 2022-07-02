@@ -1,22 +1,22 @@
 # Funcionalidades
 
-[X] Forma de criar usuário
-[X] Forma de logar usuário
-[X] Usuário pode avaliar (1 a 5 estrelas)
-[X] Usuário pode escolher tags para músicas
-[X] Usuário pode deixar comentário em músicas, álbuns e artistas
-[ ] Usuário pode remover o próprio comentário
-[ ] Usuário pode remover tags somente nas músicas que colocou a tag
-[ ] Usuário pode seguir ou deixar de seguir outro usuário.
-[ ] Usuário pode curtir ou deixar de curtir uma playlist.
-[ ] Moderador pode remover qualquer comentário
-[ ] Moderador pode remover tags para uma música específica
-[ ] Moderador pode banir usuário
-[ ] Moderador pode perdoar usuário
-[ ] Moderador pode classificar um usuário como crítico ou tirar essa classificação.
-[ ] Administrador pode banir moderadores e usuários
-[ ] Administrador pode perdoar moderadores e usuários
-[ ] Administrador pode adicionar, remover e atualizar músicas, álbuns e artistas.
-[ ] Administrador pode promover ou degradar um usuário para moderador e administrador.
-[ ] Administrador pode adicionar e remover usuários.
-[ ] Administrador pode adicionar e remover playlist associadas a tags.
+- [X] Forma de criar usuário
+- [X] Forma de logar usuário
+- [X] Usuário pode avaliar (1 a 5 estrelas)
+- [X] Usuário pode escolher tags para músicas
+- [X] Usuário pode deixar comentário em músicas, álbuns e artistas
+- [ ] Usuário pode remover o próprio comentário
+- [ ] Usuário pode remover tags somente nas músicas que colocou a tag
+- [ ] Usuário pode seguir ou deixar de seguir outro usuário.
+- [ ] Usuário pode curtir ou deixar de curtir uma playlist.
+- [ ] Moderador pode remover qualquer comentário
+- [ ] Moderador pode remover tags para uma música específica
+- [ ] Moderador pode banir usuário
+- [ ] Moderador pode perdoar usuário
+- [ ] Moderador pode classificar um usuário como crítico ou tirar essa classificação.
+- [ ] Administrador pode banir moderadores e usuários
+- [ ] Administrador pode perdoar moderadores e usuários
+- [ ] Administrador pode adicionar, remover e atualizar músicas, álbuns e artistas.
+- [ ] Administrador pode promover ou degradar um usuário para moderador e administrador.
+- [ ] Administrador pode adicionar e remover usuários.
+- [ ] Administrador pode adicionar e remover playlist associadas a tags.
