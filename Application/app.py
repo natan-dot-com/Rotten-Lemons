@@ -390,7 +390,7 @@ remove comentario <id do comentário> - remove um comentário.
 PARAMS:
     <id do comenário> - id único do comentário.\
 """)
-def remove_comment(conn, comment_id):
+def remove_comment(conn, command):
   try: comment_id = int(command.strip())
   except ValueError: raise CommandError("<id do comentário> precisa ser um inteiro")
 
