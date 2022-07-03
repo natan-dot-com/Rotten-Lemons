@@ -391,7 +391,7 @@ PARAMS:
     <id do comenário> - id único do comentário.\
 """)
 def remove_comment(conn, comment_id):
-  try: comment_id = int(command.trim())
+  try: comment_id = int(command.strip())
   except ValueError: raise CommandError("<id do comentário> precisa ser um inteiro")
 
   with conn:
