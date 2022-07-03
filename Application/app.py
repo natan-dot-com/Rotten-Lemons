@@ -93,7 +93,9 @@ def command_names():
 def match_and_run_command(command, *args):
     had_match = False
     for cmd in Command.instances:
-      if command.startswith(cmd.name):
+      cmd_words = cmd.name.split()
+      command_words = command.split()
+      if len(cmd_words) <= len(command_words) and command_words[:len(cmd_words)] == cmd_words:
         try: cmd.run(*args, command[len(cmd.name):])
         except CommandError as err:
           print(f"Erro de comando: {err}")
@@ -667,7 +669,11 @@ def add_to_playlist(conn, command):
   if userdata["cargo"] != 'A':
     raise CommandError("Somente administradores podem adicionar músicas a playlists")
 
-  playlist_id, song_id = command.strip().split()
+  words = command.strip().split()
+  if len(words) != 2:
+    raise CommandError("esperava somente <id playlist> <id musica> como parâmetros.")
+
+  playlist_id, song_id = words
 
   try: playlist_id = int(playlist_id)
   except ValueError: raise CommandError("<id playlist> precisa ser um valor inteiro")
