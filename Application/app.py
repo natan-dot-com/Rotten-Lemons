@@ -762,11 +762,6 @@ def main(conn):
       print(err)
 
 if __name__ == '__main__':
-  for cmd in Command.instances:
-    cmd.display_help()
-    print("---")
-
-  exit()
   try:
     readline.read_history_file()
     hist_len = readline.get_current_history_length()
