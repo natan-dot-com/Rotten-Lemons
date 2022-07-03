@@ -595,6 +595,9 @@ PARAMS:
     <nome do usuário> - nome do usuário que será perdoado.\
 """)
 def forgive(conn, command):
+  if userdata["cargo"] not in ['M', 'A']:
+    raise CommandError("Somente usuários e administradores podem perdoar")
+
   username = command.strip()
 
   with conn:
