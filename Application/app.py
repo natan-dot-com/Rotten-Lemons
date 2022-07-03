@@ -502,7 +502,7 @@ def dislike(conn, _):
       if cur.rowcount == 0:
         print("Não havia curtido ainda. Nada foi modificado.")
       else:
-        print("Curtida efetuada com sucesso")
+        print("Curtida removida com sucesso")
 
 @command("seguir", requires_login=True, help="""\
 seguir <nome do usuário> - segue um usuário
