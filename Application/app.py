@@ -93,7 +93,9 @@ def command_names():
 def match_and_run_command(command, *args):
     had_match = False
     for cmd in Command.instances:
-      if command.startswith(cmd.name):
+      cmd_words = cmd.name.split()
+      command_words = command.split()
+      if len(cmd_words) <= len(command_words) and command_words[:len(cmd_words)] == cmd_words:
         try: cmd.run(*args, command[len(cmd.name):])
         except CommandError as err:
           print(f"Erro de comando: {err}")
@@ -142,19 +144,20 @@ def create_user(conn, _):
   username = repl_input("username: ")
   data_nascimento = repl_input("data de nascimento (dd/mm/aaaa): ")
 
-  with conn.cursor() as cur:
-    # TODO: eh_critico deveria ser default
-    cur.execute("""
-      INSERT INTO usuario(nome_usuario, eh_critico, email, data_nascimento)
-        VALUES (%(nome_usuario)s, 'f', %(email)s,
-                TO_DATE(%(data_nascimento)s, 'DD/MM/YYYY'))""",
-      mk_dict(
-        nome_usuario = username,
-        email = email,
-        data_nascimento = data_nascimento
-      ))
+  with conn:
+      with conn.cursor() as cur:
+        # TODO: eh_critico deveria ser default
+        cur.execute("""
+          INSERT INTO usuario(nome_usuario, eh_critico, email, data_nascimento)
+            VALUES (%(nome_usuario)s, 'f', %(email)s,
+                    TO_DATE(%(data_nascimento)s, 'DD/MM/YYYY'))""",
+          mk_dict(
+            nome_usuario = username,
+            email = email,
+            data_nascimento = data_nascimento
+          ))
 
-  print("Usuário criado com sucesso")
+      print("Usuário criado com sucesso")
 
 @command("login", help="""\
 login <email> - faz login com um email
@@ -337,7 +340,7 @@ def comment(conn, args):
   if type == "artista":
     target_id = repl_input("nome do artista: ")
     table_name = "comentario_artista"
-    fk_col = "artista_comentari"
+    fk_col = "artista_comentario"
   elif type == "album":
     target_id = repl_input("id do álbum: ")
     table_name = "comentario_album"
@@ -390,8 +393,8 @@ remove comentario <id do comentário> - remove um comentário.
 PARAMS:
     <id do comenário> - id único do comentário.\
 """)
-def remove_comment(conn, comment_id):
-  try: comment_id = int(command.trim())
+def remove_comment(conn, command):
+  try: comment_id = int(command.strip())
   except ValueError: raise CommandError("<id do comentário> precisa ser um inteiro")
 
   with conn:
@@ -436,7 +439,7 @@ def list_comments_by(conn, command):
     colnames = ["id_comentario", "data_publ", "conteudo", "artista_comentario", "id_album", "id_musica"]
     page_table(f"Comentários de {username}", colnames, tuples, date_formatter=lambda d: str(d.date()))
 
-@command("lista tags", help="lista todas as tags registradas")
+@command("lista tags", help="lista tags - lista todas as tags registradas")
 def list_tags(conn, _):
   with conn.cursor() as cur:
     cur.execute("""SELECT * FROM tag""")
@@ -502,7 +505,7 @@ def dislike(conn, _):
       if cur.rowcount == 0:
         print("Não havia curtido ainda. Nada foi modificado.")
       else:
-        print("Curtida efetuada com sucesso")
+        print("Curtida removida com sucesso")
 
 @command("seguir", requires_login=True, help="""\
 seguir <nome do usuário> - segue um usuário
@@ -595,6 +598,9 @@ PARAMS:
     <nome do usuário> - nome do usuário que será perdoado.\
 """)
 def forgive(conn, command):
+  if userdata["cargo"] not in ['M', 'A']:
+    raise CommandError("Somente usuários e administradores podem perdoar")
+
   username = command.strip()
 
   with conn:
@@ -664,7 +670,11 @@ def add_to_playlist(conn, command):
   if userdata["cargo"] != 'A':
     raise CommandError("Somente administradores podem adicionar músicas a playlists")
 
-  playlist_id, song_id = command.strip().split()
+  words = command.strip().split()
+  if len(words) != 2:
+    raise CommandError("esperava somente <id playlist> <id musica> como parâmetros.")
+
+  playlist_id, song_id = words
 
   try: playlist_id = int(playlist_id)
   except ValueError: raise CommandError("<id playlist> precisa ser um valor inteiro")
