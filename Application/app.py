@@ -438,7 +438,7 @@ def list_comments_by(conn, command):
     colnames = ["id_comentario", "data_publ", "conteudo", "artista_comentario", "id_album", "id_musica"]
     page_table(f"Comentários de {username}", colnames, tuples, date_formatter=lambda d: str(d.date()))
 
-@command("lista tags", help="lista todas as tags registradas")
+@command("lista tags", help="lista tags - lista todas as tags registradas")
 def list_tags(conn, _):
   with conn.cursor() as cur:
     cur.execute("""SELECT * FROM tag""")
