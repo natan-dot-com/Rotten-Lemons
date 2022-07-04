@@ -340,7 +340,7 @@ def comment(conn, args):
   if type == "artista":
     target_id = repl_input("nome do artista: ")
     table_name = "comentario_artista"
-    fk_col = "artista_comentari"
+    fk_col = "artista_comentario"
   elif type == "album":
     target_id = repl_input("id do álbum: ")
     table_name = "comentario_album"
