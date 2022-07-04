@@ -144,19 +144,20 @@ def create_user(conn, _):
   username = repl_input("username: ")
   data_nascimento = repl_input("data de nascimento (dd/mm/aaaa): ")
 
-  with conn.cursor() as cur:
-    # TODO: eh_critico deveria ser default
-    cur.execute("""
-      INSERT INTO usuario(nome_usuario, eh_critico, email, data_nascimento)
-        VALUES (%(nome_usuario)s, 'f', %(email)s,
-                TO_DATE(%(data_nascimento)s, 'DD/MM/YYYY'))""",
-      mk_dict(
-        nome_usuario = username,
-        email = email,
-        data_nascimento = data_nascimento
-      ))
+  with conn:
+      with conn.cursor() as cur:
+        # TODO: eh_critico deveria ser default
+        cur.execute("""
+          INSERT INTO usuario(nome_usuario, eh_critico, email, data_nascimento)
+            VALUES (%(nome_usuario)s, 'f', %(email)s,
+                    TO_DATE(%(data_nascimento)s, 'DD/MM/YYYY'))""",
+          mk_dict(
+            nome_usuario = username,
+            email = email,
+            data_nascimento = data_nascimento
+          ))
 
-  print("Usuário criado com sucesso")
+      print("Usuário criado com sucesso")
 
 @command("login", help="""\
 login <email> - faz login com um email
